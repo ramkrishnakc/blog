@@ -1,13 +1,35 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
 node_modules/
+package-lock.json
+
+# folders not needed
+out/
+build/
+logs/
 dist/
+uploads/
+coverage/
+
+# remove .DS_Store files
+.DS_Store
+client/.DS_Store
+server/.DS_Store
+
+# local env files that may contain sensitive data
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Unwanted IDE/editor folders and files
 .vscode/
 .idea/
 *.log
-coverage/
 *.tmp
 *.bak
-.DS_Store
 Thumbs.db
 *.swp
 *.swo
@@ -15,17 +37,10 @@ Thumbs.db
 *.jar
 *.war
 *.iml
-out/
-build/
-logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 .cache/
 .next/
 .nuxt/
@@ -41,3 +56,5 @@ yarn-error.log*
 *.rar
 *.sublime-project
 *.sublime-workspace
+*.code-workspace
+.history/

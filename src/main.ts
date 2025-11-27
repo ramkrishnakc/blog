@@ -1,13 +1,13 @@
-import { NestFactory } from '@nestjs/core';
+import dotenv from 'dotenv';
 
 // Load environment variables from .env file
 if (process.env.NODE_ENV === 'production') {
-  process.loadEnvFile('.env');
+  dotenv.config();
 } else {
-  process.loadEnvFile('.env.local');
+  dotenv.config({ path: '.env.local' });
 }
-console.log(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS); // For debugging purposes
 
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { CustomLoggerService } from './core/logger.service';
 import helmet from 'helmet';

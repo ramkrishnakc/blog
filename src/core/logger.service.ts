@@ -33,10 +33,7 @@ export class CustomLoggerService implements LoggerService {
           format.colorize(),
           format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
           format.printf(({ timestamp, level, message, context }) => {
-            const ctxt =
-              typeof context === 'string'
-                ? context
-                : inspect(context, { depth: null });
+            const ctxt = typeof context === 'string' ? context : inspect(context, { depth: null });
             const prefix = context ? `[${ctxt}] ` : '';
             return `${String(timestamp)} [${level}] ${prefix}${String(message)}`;
           }),
@@ -55,11 +52,7 @@ export class CustomLoggerService implements LoggerService {
         debug: 5,
         silly: 6,
       },
-      format: format.combine(
-        format.timestamp(),
-        format.errors({ stack: true }),
-        format.json(),
-      ),
+      format: format.combine(format.timestamp(), format.errors({ stack: true }), format.json()),
       transports: [transportOptions.file, transportOptions.console],
       exceptionHandlers: [transportOptions.file, transportOptions.console],
       exitOnError: false,

@@ -9,20 +9,7 @@ import { Encryption } from 'src/core/encryption';
 import { CustomLoggerService } from 'src/core/logger.service';
 import { MSG } from 'src/common/constants/messages';
 import { UserUpdateCases } from 'src/common/constants/enums';
-import { validateEmail, validatePhoneNumber } from './helpers';
-
-const getUserResponse = (obj: UserDocument) => ({
-  id: obj._id,
-  name: obj.name,
-  email: obj.email,
-  phone: obj.phone,
-  dateOfBirth: obj.dateOfBirth,
-  role: obj.role,
-  internationalFormat: obj.get('internationalFormat') as string,
-  countryCode: obj.get('countryCode') as string,
-  createdAt: obj.get('createdAt') as Date,
-  updatedAt: obj.get('updatedAt') as Date,
-});
+import { getUserResponse, validatePhoneNumber, validateUserEmail } from './helpers';
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -62,7 +49,7 @@ export class UserService implements OnModuleInit {
   }
 
   async createUser(data: dtos.CreateUserDto): Promise<dtos.UserResponseDto> {
-    validateEmail(data);
+    validateUserEmail(data);
     validatePhoneNumber(data);
     const result = await this.saveUser(data, USER_ROLES.USER);
     return getUserResponse(result);
@@ -103,7 +90,7 @@ export class UserService implements OnModuleInit {
       }
 
       case UserUpdateCases.EMAIL: {
-        if (validateEmail(data, user, true)) {
+        if (validateUserEmail(data, user, true)) {
           newData.email = data.email;
           newData.emailVerified = false;
         }
@@ -146,7 +133,9 @@ export class UserService implements OnModuleInit {
   }
 
   async delete(id: string): Promise<{ message: string }> {
-    const result = await this.UserModel.findByIdAndUpdate(id, { isActive: false }).exec();
+    const result = await this.UserModel.findByIdAndUpdate(id, {
+      isActive: false,
+    }).exec();
     if (!result) throw new Error(`Couldn't remove: ${MSG.user_not_found}`);
 
     return { message: 'User removed successfully' };

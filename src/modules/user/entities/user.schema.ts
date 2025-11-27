@@ -28,9 +28,13 @@ export class User {
   })
   phone?: string;
   // Field for storing international format
+  @Prop({ trim: true })
   internationalFormat?: string;
   // Field for storing country code
+  @Prop({ trim: true })
   countryCode?: string;
+  // date of birth
+  @Prop({ trim: true })
   dateOfBirth?: Date;
 
   @Prop({
